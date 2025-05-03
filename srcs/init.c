@@ -32,12 +32,14 @@ int	init_data(t_data *data, char **argv)
 	while (i < data->num_philos)
 	{
 		pthread_mutex_init(&data->forks[i], NULL);
+		pthread_mutex_init(&data->philos[i].meal_mutex, NULL);
 		data->philos[i].id = i;
 		data->philos[i].meals_eaten = 0;
 		data->philos[i].last_meal_time = data->start_time;
 		data->philos[i].data = data;
 		i++;
 	}
+	pthread_mutex_init(&data->sim_mutex, NULL);
 	return (0);
 }
 
@@ -47,8 +49,13 @@ void	cleanup(t_data *data)
 
 	i = 0;
 	while (i < data->num_philos)
-		pthread_mutex_destroy(&data->forks[i++]);
+	{
+		pthread_mutex_destroy(&data->forks[i]);
+		pthread_mutex_destroy(&data->philos[i].meal_mutex);
+		i++;
+	}
 	pthread_mutex_destroy(&data->write_mutex);
+	pthread_mutex_destroy(&data->sim_mutex);
 	free(data->forks);
 	free(data->philos);
 }

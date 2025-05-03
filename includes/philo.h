@@ -25,6 +25,7 @@ typedef struct s_philo
 	int				meals_eaten;
 	long long		last_meal_time;
 	pthread_t		thread;
+	pthread_mutex_t	meal_mutex;
 	struct s_data	*data;
 }	t_philo;
 
@@ -37,6 +38,7 @@ typedef struct s_data
 	int				meals_required;
 	int				sim_over;
 	long long		start_time;
+	pthread_mutex_t	sim_mutex;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	write_mutex;
 	t_philo			*philos;
