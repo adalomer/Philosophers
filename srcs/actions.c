@@ -40,17 +40,41 @@ void	*philosopher_routine(void *arg)
 			pthread_mutex_lock(&data->forks[philo->id]);
 		}
 
-		pthread_mutex_lock(&data->write_mutex);
-		printf("%lld %d has taken a fork\n", get_time() - data->start_time, philo->id + 1);
-		pthread_mutex_unlock(&data->write_mutex);
+		pthread_mutex_lock(&data->sim_mutex);
+		if (!data->sim_over)
+		{
+			pthread_mutex_unlock(&data->sim_mutex);
+			pthread_mutex_lock(&data->write_mutex);
+			printf("%lld %d has taken a fork\n", get_time() - data->start_time, philo->id + 1);
+			pthread_mutex_unlock(&data->write_mutex);
+		}
+		else
+		{
+			pthread_mutex_unlock(&data->sim_mutex);
+			pthread_mutex_unlock(&data->forks[philo->id]);
+			pthread_mutex_unlock(&data->forks[(philo->id + 1) % data->num_philos]);
+			break;
+		}
 
 		pthread_mutex_lock(&philo->meal_mutex);
 		philo->last_meal_time = get_time();
 		pthread_mutex_unlock(&philo->meal_mutex);
 
-		pthread_mutex_lock(&data->write_mutex);
-		printf("%lld %d is eating\n", get_time() - data->start_time, philo->id + 1);
-		pthread_mutex_unlock(&data->write_mutex);
+		pthread_mutex_lock(&data->sim_mutex);
+		if (!data->sim_over)
+		{
+			pthread_mutex_unlock(&data->sim_mutex);
+			pthread_mutex_lock(&data->write_mutex);
+			printf("%lld %d is eating\n", get_time() - data->start_time, philo->id + 1);
+			pthread_mutex_unlock(&data->write_mutex);
+		}
+		else
+		{
+			pthread_mutex_unlock(&data->sim_mutex);
+			pthread_mutex_unlock(&data->forks[philo->id]);
+			pthread_mutex_unlock(&data->forks[(philo->id + 1) % data->num_philos]);
+			break;
+		}
 
 		ft_usleep(data->time_to_eat);
 		philo->meals_eaten++;
@@ -58,14 +82,35 @@ void	*philosopher_routine(void *arg)
 		pthread_mutex_unlock(&data->forks[philo->id]);
 		pthread_mutex_unlock(&data->forks[(philo->id + 1) % data->num_philos]);
 
-		pthread_mutex_lock(&data->write_mutex);
-		printf("%lld %d is sleeping\n", get_time() - data->start_time, philo->id + 1);
-		pthread_mutex_unlock(&data->write_mutex);
+		pthread_mutex_lock(&data->sim_mutex);
+		if (!data->sim_over)
+		{
+			pthread_mutex_unlock(&data->sim_mutex);
+			pthread_mutex_lock(&data->write_mutex);
+			printf("%lld %d is sleeping\n", get_time() - data->start_time, philo->id + 1);
+			pthread_mutex_unlock(&data->write_mutex);
+		}
+		else
+		{
+			pthread_mutex_unlock(&data->sim_mutex);
+			break;
+		}
+
 		ft_usleep(data->time_to_sleep);
 
-		pthread_mutex_lock(&data->write_mutex);
-		printf("%lld %d is thinking\n", get_time() - data->start_time, philo->id + 1);
-		pthread_mutex_unlock(&data->write_mutex);
+		pthread_mutex_lock(&data->sim_mutex);
+		if (!data->sim_over)
+		{
+			pthread_mutex_unlock(&data->sim_mutex);
+			pthread_mutex_lock(&data->write_mutex);
+			printf("%lld %d is thinking\n", get_time() - data->start_time, philo->id + 1);
+			pthread_mutex_unlock(&data->write_mutex);
+		}
+		else
+		{
+			pthread_mutex_unlock(&data->sim_mutex);
+			break;
+		}
 	}
 	return (NULL);
 }

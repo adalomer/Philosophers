@@ -32,11 +32,9 @@ void	*monitor_routine(void *arg)
 			{
 				pthread_mutex_lock(&data->write_mutex);
 				printf("%lld %d died\n", get_time() - data->start_time, data->philos[i].id + 1);
-				pthread_mutex_unlock(&data->write_mutex);
 
-				pthread_mutex_lock(&data->sim_mutex);
 				data->sim_over = 1;
-				pthread_mutex_unlock(&data->sim_mutex);
+				pthread_mutex_unlock(&data->write_mutex);
 				return (NULL);
 			}
 			i++;
