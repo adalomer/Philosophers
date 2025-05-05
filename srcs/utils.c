@@ -29,7 +29,12 @@ void	ft_usleep(int milliseconds)
 		usleep(100);
 }
 
-int	ft_atoi(const char *str)
+static int	ft_isspace(int c)
+{
+	return (c == ' ' || (c >= 9 && c <= 13));
+}
+
+static long	ft_atol(const char *str)
 {
 	int		i;
 	int		sign;
@@ -38,7 +43,7 @@ int	ft_atoi(const char *str)
 	i = 0;
 	sign = 1;
 	result = 0;
-	while (str[i] == ' ' || (str[i] >= 9 && str[i] <= 13))
+	while (ft_isspace(str[i]))
 		i++;
 	if (str[i] == '-' || str[i] == '+')
 	{
@@ -51,5 +56,10 @@ int	ft_atoi(const char *str)
 		result = (result * 10) + (str[i] - '0');
 		i++;
 	}
-	return ((int)(result * sign));
+	return (result * sign);
+}
+
+int	ft_atoi(const char *str)
+{
+	return ((int)ft_atol(str));
 }
