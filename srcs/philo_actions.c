@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   actions.c                                          :+:      :+:    :+:   */
+/*   philo_actions.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: omadali < omadali@student.42kocaeli.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -62,15 +62,6 @@ static void	eat(t_philo *philo, t_data *data)
 	release_forks(philo, data);
 }
 
-static void	sleep_and_think(t_philo *philo, t_data *data)
-{
-	if (!print_status(data, philo->id, "is sleeping"))
-		return ;
-	ft_usleep(data->time_to_sleep);
-	if (!print_status(data, philo->id, "is thinking"))
-		return ;
-}
-
 void	*philosopher_routine(void *arg)
 {
 	t_philo		*philo;
@@ -94,7 +85,11 @@ void	*philosopher_routine(void *arg)
 			break ;
 		}
 		eat(philo, data);
-		sleep_and_think(philo, data);
+		if (!print_status(data, philo->id, "is sleeping"))
+			break ;
+		ft_usleep(data->time_to_sleep);
+		if (!print_status(data, philo->id, "is thinking"))
+			break ;
 	}
 	return (NULL);
-}
+} 
