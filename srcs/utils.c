@@ -31,7 +31,7 @@ void	ft_usleep(int milliseconds)
 		current_time = get_time();
 		if ((current_time - start_time) >= milliseconds)
 			break;
-		usleep(100);
+		usleep(10);
 	}
 }
 

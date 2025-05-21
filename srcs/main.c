@@ -26,6 +26,8 @@ static int	create_threads(t_data *data)
 	}
 	if (pthread_create(&monitor, NULL, monitor_routine, data))
 		return (1);
+	usleep(1000); // Tüm thread'lerin hazır olması için kısa bir bekleme
+	pthread_mutex_unlock(&data->start_mutex);
 	i = 0;
 	while (i < data->num_philos)
 	{

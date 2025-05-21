@@ -39,6 +39,7 @@ typedef struct s_data
 	int				sim_over;
 	long long		start_time;
 	pthread_mutex_t	sim_mutex;
+	pthread_mutex_t	start_mutex;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	write_mutex;
 	t_philo			*philos;

@@ -31,6 +31,8 @@ int	init_data(t_data *data, char **argv)
 		return (printf("Error: Memory allocation failed\n"), 1);
 	pthread_mutex_init(&data->write_mutex, NULL);
 	pthread_mutex_init(&data->sim_mutex, NULL);
+	pthread_mutex_init(&data->start_mutex, NULL);
+	pthread_mutex_lock(&data->start_mutex);
 	i = 0;
 	while (i < data->num_philos)
 	{
@@ -58,6 +60,7 @@ void	cleanup(t_data *data)
 	}
 	pthread_mutex_destroy(&data->write_mutex);
 	pthread_mutex_destroy(&data->sim_mutex);
+	pthread_mutex_destroy(&data->start_mutex);
 	free(data->forks);
 	free(data->philos);
 }

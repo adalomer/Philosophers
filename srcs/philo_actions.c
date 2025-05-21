@@ -22,10 +22,12 @@ static void	take_forks(t_philo *philo, t_data *data)
 	if (philo->id % 2 == 0)
 	{
 		pthread_mutex_lock(&data->forks[philo->id]);
+		usleep(100);
 		pthread_mutex_lock(&data->forks[(philo->id + 1) % data->num_philos]);
 	}
 	else
 	{
+		usleep(100);
 		pthread_mutex_lock(&data->forks[(philo->id + 1) % data->num_philos]);
 		pthread_mutex_lock(&data->forks[philo->id]);
 	}
@@ -81,6 +83,8 @@ void	*philosopher_routine(void *arg)
 
 	philo = (t_philo *)arg;
 	data = philo->data;
+	pthread_mutex_lock(&data->start_mutex);
+	pthread_mutex_unlock(&data->start_mutex);
 	while (1)
 	{
 		pthread_mutex_lock(&data->sim_mutex);
