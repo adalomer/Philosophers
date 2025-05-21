@@ -23,10 +23,16 @@ long long	get_time(void)
 void	ft_usleep(int milliseconds)
 {
 	long long	start_time;
+	long long	current_time;
 
 	start_time = get_time();
-	while ((get_time() - start_time) < milliseconds)
+	while (1)
+	{
+		current_time = get_time();
+		if ((current_time - start_time) >= milliseconds)
+			break;
 		usleep(100);
+	}
 }
 
 static int	ft_isspace(int c)
@@ -38,7 +44,7 @@ static long	ft_atol(const char *str)
 {
 	int		i;
 	int		sign;
-	long	result;
+	long result;
 
 	i = 0;
 	sign = 1;

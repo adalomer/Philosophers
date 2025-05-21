@@ -46,6 +46,27 @@ static int	check_all_philos(t_data *data)
 	return (0);
 }
 
+static int	check_meals_required(t_data *data)
+{
+	int	i;
+
+	if (data->meals_required == -1)
+		return (0);
+	i = 0;
+	while (i < data->num_philos)
+	{
+		pthread_mutex_lock(&data->philos[i].meal_mutex);
+		if (data->philos[i].meals_eaten < data->meals_required)
+		{
+			pthread_mutex_unlock(&data->philos[i].meal_mutex);
+			return (0);
+		}
+		pthread_mutex_unlock(&data->philos[i].meal_mutex);
+		i++;
+	}
+	return (1);
+}
+
 void	*monitor_routine(void *arg)
 {
 	t_data	*data;
@@ -55,7 +76,14 @@ void	*monitor_routine(void *arg)
 	{
 		if (check_all_philos(data))
 			return (NULL);
-		usleep(1000);
+		if (check_meals_required(data))
+		{
+			pthread_mutex_lock(&data->sim_mutex);
+			data->sim_over = 1;
+			pthread_mutex_unlock(&data->sim_mutex);
+			return (NULL);
+		}
+		usleep(100);
 	}
 	return (NULL);
 }

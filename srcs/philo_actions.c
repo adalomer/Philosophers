@@ -14,6 +14,11 @@
 
 static void	take_forks(t_philo *philo, t_data *data)
 {
+	if (data->num_philos == 1)
+	{
+		pthread_mutex_lock(&data->forks[0]);
+		return;
+	}
 	if (philo->id % 2 == 0)
 	{
 		pthread_mutex_lock(&data->forks[philo->id]);
@@ -28,6 +33,11 @@ static void	take_forks(t_philo *philo, t_data *data)
 
 static void	release_forks(t_philo *philo, t_data *data)
 {
+	if (data->num_philos == 1)
+	{
+		pthread_mutex_unlock(&data->forks[0]);
+		return;
+	}
 	pthread_mutex_unlock(&data->forks[philo->id]);
 	pthread_mutex_unlock(&data->forks[(philo->id + 1) % data->num_philos]);
 }
@@ -58,7 +68,9 @@ static void	eat(t_philo *philo, t_data *data)
 		return ;
 	}
 	ft_usleep(data->time_to_eat);
+	pthread_mutex_lock(&philo->meal_mutex);
 	philo->meals_eaten++;
+	pthread_mutex_unlock(&philo->meal_mutex);
 	release_forks(philo, data);
 }
 
@@ -83,6 +95,15 @@ void	*philosopher_routine(void *arg)
 		{
 			release_forks(philo, data);
 			break ;
+		}
+		if (data->num_philos == 1)
+		{
+			ft_usleep(data->time_to_die);
+			pthread_mutex_lock(&data->sim_mutex);
+			data->sim_over = 1;
+			pthread_mutex_unlock(&data->sim_mutex);
+			release_forks(philo, data);
+			break;
 		}
 		eat(philo, data);
 		if (!print_status(data, philo->id, "is sleeping"))
