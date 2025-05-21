@@ -6,7 +6,7 @@
 /*   By: omadali < omadali@student.42kocaeli.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 00:03:23 by omadali           #+#    #+#             */
-/*   Updated: 2025/05/10 18:35:03 by omadali          ###   ########.fr       */
+/*   Updated: 2025/04/22 09:47:22 by omadali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,18 +18,17 @@ static int	check_philo_death(t_data *data, int i)
 
 	pthread_mutex_lock(&data->philos[i].meal_mutex);
 	last_meal = data->philos[i].last_meal_time;
-	pthread_mutex_unlock(&data->philos[i].meal_mutex);
 	if ((get_time() - last_meal) >= data->time_to_die)
 	{
-		pthread_mutex_lock(&data->write_mutex);
+		
 		printf("%lld %d died\n", get_time() - data->start_time, data->philos[i].id + 1);
-		pthread_mutex_lock(&data->sim_mutex);
 		data->sim_over = 1;
-		pthread_mutex_unlock(&data->sim_mutex);
-		pthread_mutex_unlock(&data->write_mutex);
+		pthread_mutex_unlock(&data->philos[i].meal_mutex);
 		return (1);
 	}
+	pthread_mutex_unlock(&data->philos[i].meal_mutex);
 	return (0);
+	
 }
 
 static int	check_all_philos(t_data *data)
@@ -46,6 +45,22 @@ static int	check_all_philos(t_data *data)
 	return (0);
 }
 
+static int	check_meals_required(t_data *data)
+{
+	int	i;
+
+	if (data->meals_required == -1)
+		return (0);
+	i = 0;
+	while (i < data->num_philos)
+	{
+		if (data->philos[i].meals_eaten < data->meals_required)
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
 void	*monitor_routine(void *arg)
 {
 	t_data	*data;
@@ -55,6 +70,13 @@ void	*monitor_routine(void *arg)
 	{
 		if (check_all_philos(data))
 			return (NULL);
+		if (check_meals_required(data))
+		{
+			pthread_mutex_lock(&data->sim_mutex);
+			data->sim_over = 1;
+			pthread_mutex_unlock(&data->sim_mutex);
+			return (NULL);
+		}
 		usleep(1000);
 	}
 	return (NULL);
