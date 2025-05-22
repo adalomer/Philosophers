@@ -6,7 +6,7 @@
 /*   By: omadali < omadali@student.42kocaeli.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 00:03:23 by omadali           #+#    #+#             */
-/*   Updated: 2025/05/10 18:35:03 by omadali          ###   ########.fr       */
+/*   Updated: 2025/05/22 04:54:59 by omadali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,10 @@ void	*monitor_routine(void *arg)
 	t_data	*data;
 
 	data = (t_data *)arg;
+
+	pthread_mutex_lock(&data->start_mutex);
+	data->start = 1;
+	pthread_mutex_unlock(&data->start_mutex);
 	while (1)
 	{
 		if (check_all_philos(data))

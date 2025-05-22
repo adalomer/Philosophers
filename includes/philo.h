@@ -6,7 +6,7 @@
 /*   By: omadali < omadali@student.42kocaeli.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 02:58:10 by omadali           #+#    #+#             */
-/*   Updated: 2025/03/13 00:02:27 by omadali          ###   ########.fr       */
+/*   Updated: 2025/05/22 04:27:28 by omadali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ typedef struct s_data
 	int				time_to_sleep;
 	int				meals_required;
 	int				sim_over;
+	int				start;
 	long long		start_time;
 	pthread_mutex_t	sim_mutex;
 	pthread_mutex_t	start_mutex;
