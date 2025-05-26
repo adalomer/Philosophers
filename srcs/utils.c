@@ -30,7 +30,7 @@ void	ft_usleep(int milliseconds)
 	{
 		current_time = get_time();
 		if ((current_time - start_time) >= milliseconds)
-			break;
+			break ;
 		usleep(10);
 	}
 }
@@ -44,7 +44,7 @@ static long	ft_atol(const char *str)
 {
 	int		i;
 	int		sign;
-	long result;
+	long	result;
 
 	i = 0;
 	sign = 1;

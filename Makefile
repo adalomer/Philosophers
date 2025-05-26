@@ -13,7 +13,13 @@
 NAME = philo
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -pthread
-SRCS = srcs/main.c srcs/utils.c srcs/init.c srcs/monitor.c srcs/philo_actions.c
+SRCS = srcs/main.c \
+       srcs/init.c \
+       srcs/monitor.c \
+       srcs/monitor_utils.c \
+       srcs/philo_actions.c \
+       srcs/philo_actions_utils.c \
+       srcs/utils.c
 OBJS = $(SRCS:.c=.o)
 
 all: $(NAME)

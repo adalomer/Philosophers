@@ -20,13 +20,13 @@ static int	create_threads(t_data *data)
 	i = 0;
 	while (i < data->num_philos)
 	{
-		if (pthread_create(&data->philos[i].thread, NULL, philosopher_routine, &data->philos[i]))
+		if (pthread_create(&data->philos[i].thread, NULL,
+				philosopher_routine, &data->philos[i]))
 			return (1);
 		i++;
 	}
 	if (pthread_create(&monitor, NULL, monitor_routine, data))
 		return (1);
-	//usleep(100); // Tüm thread'lerin hazır olması için kısa bir bekleme
 	pthread_mutex_unlock(&data->start_mutex);
 	i = 0;
 	while (i < data->num_philos)
@@ -46,7 +46,11 @@ static int	check_args(int argc, char **argv)
 	int	j;
 
 	if (argc < 5 || argc > 6)
-		return (printf("Usage: ./philo num_philos time_to_die time_to_eat time_to_sleep [meals_required]\n"), 1);
+	{
+		printf("Usage: ./philo num_philos time_to_die time_to_eat ");
+		printf("time_to_sleep [meals_required]\n");
+		return (1);
+	}
 	i = 1;
 	while (i < argc)
 	{
@@ -54,7 +58,10 @@ static int	check_args(int argc, char **argv)
 		while (argv[i][j])
 		{
 			if (argv[i][j] < '0' || argv[i][j] > '9')
-				return (printf("Error: Arguments must be positive numbers\n"), 1);
+			{
+				printf("Error: Arguments must be positive numbers\n");
+				return (1);
+			}
 			j++;
 		}
 		i++;

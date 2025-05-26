@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   monitor.c                                          :+:      :+:    :+:   */
+/*   monitor_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: omadali < omadali@student.42kocaeli.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,7 +12,7 @@
 
 #include "../includes/philo.h"
 
-static void	print_death_message(t_data *data, int philo_id)
+void	print_death_message(t_data *data, int philo_id)
 {
 	pthread_mutex_lock(&data->write_mutex);
 	printf("%lld %d died\n", get_time() - data->start_time, philo_id + 1);
@@ -22,7 +22,7 @@ static void	print_death_message(t_data *data, int philo_id)
 	pthread_mutex_unlock(&data->write_mutex);
 }
 
-static int	check_philo_death(t_data *data, int i)
+int	check_philo_death(t_data *data, int i)
 {
 	long long	last_meal;
 
@@ -37,7 +37,7 @@ static int	check_philo_death(t_data *data, int i)
 	return (0);
 }
 
-static int	check_all_philos(t_data *data)
+int	check_all_philos(t_data *data)
 {
 	int	i;
 
@@ -51,7 +51,7 @@ static int	check_all_philos(t_data *data)
 	return (0);
 }
 
-static int	check_meals_required(t_data *data)
+int	check_meals_required(t_data *data)
 {
 	int	i;
 
@@ -70,33 +70,4 @@ static int	check_meals_required(t_data *data)
 		i++;
 	}
 	return (1);
-}
-
-static void	end_simulation(t_data *data)
-{
-	pthread_mutex_lock(&data->sim_mutex);
-	data->sim_over = 1;
-	pthread_mutex_unlock(&data->sim_mutex);
-}
-
-void	*monitor_routine(void *arg)
-{
-	t_data	*data;
-
-	data = (t_data *)arg;
-	pthread_mutex_lock(&data->start_mutex);
-	data->start = 1;
-	pthread_mutex_unlock(&data->start_mutex);
-	while (1)
-	{
-		if (check_all_philos(data))
-			return (NULL);
-		if (check_meals_required(data))
-		{
-			end_simulation(data);
-			return (NULL);
-		}
-		usleep(100);
-	}
-	return (NULL);
 }
