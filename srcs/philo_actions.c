@@ -12,6 +12,16 @@
 
 #include "../includes/philo.h"
 
+static int	check_simulation_status(t_data *data)
+{
+	int	status;
+
+	pthread_mutex_lock(&data->sim_mutex);
+	status = data->sim_over;
+	pthread_mutex_unlock(&data->sim_mutex);
+	return (status);
+}
+
 static void	take_forks(t_philo *philo, t_data *data)
 {
 	if (data->num_philos == 1)
@@ -22,11 +32,22 @@ static void	take_forks(t_philo *philo, t_data *data)
 	if (philo->id % 2 == 0)
 	{
 		pthread_mutex_lock(&data->forks[philo->id]);
+		if (check_simulation_status(data))
+		{
+			pthread_mutex_unlock(&data->forks[philo->id]);
+			return ;
+		}
 		pthread_mutex_lock(&data->forks[(philo->id + 1) % data->num_philos]);
 	}
 	else
 	{
+		usleep(100);
 		pthread_mutex_lock(&data->forks[(philo->id + 1) % data->num_philos]);
+		if (check_simulation_status(data))
+		{
+			pthread_mutex_unlock(&data->forks[(philo->id + 1) % data->num_philos]);
+			return ;
+		}
 		pthread_mutex_lock(&data->forks[philo->id]);
 	}
 }
@@ -38,24 +59,32 @@ static void	release_forks(t_philo *philo, t_data *data)
 		pthread_mutex_unlock(&data->forks[0]);
 		return ;
 	}
-	pthread_mutex_unlock(&data->forks[philo->id]);
-	pthread_mutex_unlock(&data->forks[(philo->id + 1) % data->num_philos]);
+	if (philo->id % 2 == 0)
+	{
+		pthread_mutex_unlock(&data->forks[philo->id]);
+		pthread_mutex_unlock(&data->forks[(philo->id + 1) % data->num_philos]);
+	}
+	else
+	{
+		pthread_mutex_unlock(&data->forks[(philo->id + 1) % data->num_philos]);
+		pthread_mutex_unlock(&data->forks[philo->id]);
+	}
 }
 
 static int	print_status(t_data *data, int philo_id, char *status)
 {
 	pthread_mutex_lock(&data->sim_mutex);
-	if (!data->sim_over)
+	if (data->sim_over)
 	{
 		pthread_mutex_unlock(&data->sim_mutex);
-		pthread_mutex_lock(&data->write_mutex);
-		printf("%lld %d %s\n", get_time() - data->start_time,
-			philo_id + 1, status);
-		pthread_mutex_unlock(&data->write_mutex);
-		return (1);
+		return (0);
 	}
 	pthread_mutex_unlock(&data->sim_mutex);
-	return (0);
+	pthread_mutex_lock(&data->write_mutex);
+	printf("%lld %d %s\n", get_time() - data->start_time,
+		philo_id + 1, status);
+	pthread_mutex_unlock(&data->write_mutex);
+	return (1);
 }
 
 static void	update_meal_info(t_philo *philo)
@@ -78,16 +107,6 @@ static void	eat(t_philo *philo, t_data *data)
 	release_forks(philo, data);
 }
 
-static int	check_simulation_status(t_data *data)
-{
-	int	status;
-
-	pthread_mutex_lock(&data->sim_mutex);
-	status = data->sim_over;
-	pthread_mutex_unlock(&data->sim_mutex);
-	return (status);
-}
-
 static void	handle_single_philosopher(t_philo *philo, t_data *data)
 {
 	ft_usleep(data->time_to_die);
@@ -99,7 +118,14 @@ static void	handle_single_philosopher(t_philo *philo, t_data *data)
 
 static void	philosopher_cycle(t_philo *philo, t_data *data)
 {
+	if (check_simulation_status(data))
+		return ;
 	take_forks(philo, data);
+	if (check_simulation_status(data))
+	{
+		release_forks(philo, data);
+		return ;
+	}
 	if (!print_status(data, philo->id, "has taken a fork"))
 	{
 		release_forks(philo, data);
@@ -111,11 +137,21 @@ static void	philosopher_cycle(t_philo *philo, t_data *data)
 		return ;
 	}
 	eat(philo, data);
+	if (check_simulation_status(data))
+		return ;
 	if (!print_status(data, philo->id, "is sleeping"))
 		return ;
 	ft_usleep(data->time_to_sleep);
+	if (check_simulation_status(data))
+		return ;
 	if (!print_status(data, philo->id, "is thinking"))
 		return ;
+	if (data->num_philos > 100)
+		ft_usleep(data->time_to_eat / 8);
+	else if (data->num_philos > 5)
+		ft_usleep(data->time_to_eat / 4);
+	else
+		ft_usleep(data->time_to_eat / 2);
 }
 
 void	*philosopher_routine(void *arg)
@@ -135,6 +171,8 @@ void	*philosopher_routine(void *arg)
 		if (check_simulation_status(data))
 			break ;
 		philosopher_cycle(philo, data);
+		if (check_simulation_status(data))
+			break ;
 	}
 	return (NULL);
 }

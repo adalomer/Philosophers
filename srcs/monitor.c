@@ -96,7 +96,7 @@ void	*monitor_routine(void *arg)
 			end_simulation(data);
 			return (NULL);
 		}
-		usleep(100);
+		usleep(1000);
 	}
 	return (NULL);
 }

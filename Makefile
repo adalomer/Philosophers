@@ -12,7 +12,7 @@
 
 NAME = philo
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -pthread
+CFLAGS = -Wall -Wextra -Werror 
 SRCS = srcs/main.c \
        srcs/init.c \
        srcs/monitor.c \
