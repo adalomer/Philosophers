@@ -6,7 +6,7 @@
 /*   By: omadali < omadali@student.42kocaeli.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 02:58:10 by omadali           #+#    #+#             */
-/*   Updated: 2025/05/22 04:27:28 by omadali          ###   ########.fr       */
+/*   Updated: 2025/06/03 21:28:16 by omadali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@ void		cleanup(t_data *data);
 
 /* actions.c */
 void		*philosopher_routine(void *arg);
+void	take_forks(t_philo *philo, t_data *data);
+int	check_simulation_status(t_data *data);
 
 /* monitor.c */
 void		*monitor_routine(void *arg);

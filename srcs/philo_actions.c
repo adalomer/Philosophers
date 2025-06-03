@@ -6,13 +6,13 @@
 /*   By: omadali < omadali@student.42kocaeli.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 00:03:10 by omadali           #+#    #+#             */
-/*   Updated: 2025/05/22 04:47:43 by omadali          ###   ########.fr       */
+/*   Updated: 2025/06/03 21:28:07 by omadali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
 
-static int	check_simulation_status(t_data *data)
+int	check_simulation_status(t_data *data)
 {
 	int	status;
 
@@ -20,37 +20,6 @@ static int	check_simulation_status(t_data *data)
 	status = data->sim_over;
 	pthread_mutex_unlock(&data->sim_mutex);
 	return (status);
-}
-
-static void	take_forks(t_philo *philo, t_data *data)
-{
-	if (data->num_philos == 1)
-	{
-		pthread_mutex_lock(&data->forks[0]);
-		return ;
-	}
-	if(philo->id % 2 == 0)
-		ft_usleep(10);
-	if (philo->id % 2 == 0)
-	{
-		pthread_mutex_lock(&data->forks[philo->id]);
-		if (check_simulation_status(data))
-		{
-			pthread_mutex_unlock(&data->forks[philo->id]);
-			return ;
-		}
-		pthread_mutex_lock(&data->forks[(philo->id + 1) % data->num_philos]);
-	}
-	else
-	{
-		pthread_mutex_lock(&data->forks[(philo->id + 1) % data->num_philos]);
-		if (check_simulation_status(data))
-		{
-			pthread_mutex_unlock(&data->forks[(philo->id + 1) % data->num_philos]);
-			return ;
-		}
-		pthread_mutex_lock(&data->forks[philo->id]);
-	}
 }
 
 static void	release_forks(t_philo *philo, t_data *data)
