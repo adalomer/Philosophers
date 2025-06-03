@@ -29,6 +29,8 @@ static void	take_forks(t_philo *philo, t_data *data)
 		pthread_mutex_lock(&data->forks[0]);
 		return ;
 	}
+	if(philo->id % 2 == 0)
+		ft_usleep(10);
 	if (philo->id % 2 == 0)
 	{
 		pthread_mutex_lock(&data->forks[philo->id]);
@@ -41,7 +43,6 @@ static void	take_forks(t_philo *philo, t_data *data)
 	}
 	else
 	{
-		usleep(100);
 		pthread_mutex_lock(&data->forks[(philo->id + 1) % data->num_philos]);
 		if (check_simulation_status(data))
 		{
@@ -118,6 +119,7 @@ static void	handle_single_philosopher(t_philo *philo, t_data *data)
 
 static void	philosopher_cycle(t_philo *philo, t_data *data)
 {
+	int thinktime;
 	if (check_simulation_status(data))
 		return ;
 	take_forks(philo, data);
@@ -146,12 +148,9 @@ static void	philosopher_cycle(t_philo *philo, t_data *data)
 		return ;
 	if (!print_status(data, philo->id, "is thinking"))
 		return ;
-	if (data->num_philos > 100)
-		ft_usleep(data->time_to_eat / 8);
-	else if (data->num_philos > 5)
-		ft_usleep(data->time_to_eat / 4);
-	else
-		ft_usleep(data->time_to_eat / 2);
+	thinktime = data->time_to_die - data->time_to_eat - data->time_to_sleep;
+	if (thinktime > 0)
+		ft_usleep(thinktime / 2);
 }
 
 void	*philosopher_routine(void *arg)
