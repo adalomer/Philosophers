@@ -6,7 +6,7 @@
 /*   By: omadali < omadali@student.42kocaeli.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 00:03:10 by omadali           #+#    #+#             */
-/*   Updated: 2025/06/03 21:28:07 by omadali          ###   ########.fr       */
+/*   Updated: 2025/06/03 22:14:31 by omadali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,24 +22,24 @@ int	check_simulation_status(t_data *data)
 	return (status);
 }
 
-static void	release_forks(t_philo *philo, t_data *data)
-{
-	if (data->num_philos == 1)
-	{
-		pthread_mutex_unlock(&data->forks[0]);
-		return ;
-	}
-	if (philo->id % 2 == 0)
-	{
-		pthread_mutex_unlock(&data->forks[philo->id]);
-		pthread_mutex_unlock(&data->forks[(philo->id + 1) % data->num_philos]);
-	}
-	else
-	{
-		pthread_mutex_unlock(&data->forks[(philo->id + 1) % data->num_philos]);
-		pthread_mutex_unlock(&data->forks[philo->id]);
-	}
-}
+// static void	release_forks(t_philo *philo, t_data *data)
+// {
+// 	if (data->num_philos == 1)
+// 	{
+// 		pthread_mutex_unlock(&data->forks[0]);
+// 		return ;
+// 	}
+// 	if (philo->id % 2 == 0)
+// 	{
+// 		pthread_mutex_unlock(&data->forks[philo->id]);
+// 		pthread_mutex_unlock(&data->forks[(philo->id + 1) % data->num_philos]);
+// 	}
+// 	else
+// 	{
+// 		pthread_mutex_unlock(&data->forks[(philo->id + 1) % data->num_philos]);
+// 		pthread_mutex_unlock(&data->forks[philo->id]);
+// 	}
+// }
 
 static int	print_status(t_data *data, int philo_id, char *status)
 {

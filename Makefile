@@ -6,13 +6,13 @@
 #    By: omadali < omadali@student.42kocaeli.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/13 00:03:44 by omadali           #+#    #+#              #
-#    Updated: 2025/06/03 21:44:59 by omadali          ###   ########.fr        #
+#    Updated: 2025/06/03 22:04:55 by omadali          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = philo
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -fsanitize=thread
 SRCS = srcs/main.c \
        srcs/init.c \
        srcs/monitor.c \

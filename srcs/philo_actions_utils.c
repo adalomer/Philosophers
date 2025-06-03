@@ -6,7 +6,7 @@
 /*   By: omadali < omadali@student.42kocaeli.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 00:03:10 by omadali           #+#    #+#             */
-/*   Updated: 2025/06/03 21:37:24 by omadali          ###   ########.fr       */
+/*   Updated: 2025/06/03 22:10:06 by omadali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,21 +22,21 @@ void	take_forks(t_philo *philo, t_data *data)
 	if (philo->id % 2 == 0)
 	{
 		pthread_mutex_lock(&data->forks[philo->id]);
-		if (check_simulation_status(data))
-		{
-			pthread_mutex_unlock(&data->forks[philo->id]);
-			return ;
-		}
+		// if (check_simulation_status(data))
+		// {
+		// 	pthread_mutex_unlock(&data->forks[philo->id]);
+		// 	return ;
+		// }
 		pthread_mutex_lock(&data->forks[(philo->id + 1) % data->num_philos]);
 	}
 	else
 	{
 		pthread_mutex_lock(&data->forks[(philo->id + 1) % data->num_philos]);
-		if (check_simulation_status(data))
-		{
-			pthread_mutex_unlock(&data->forks[(philo->id + 1) % data->num_philos]);
-			return ;
-		}
+		// if (check_simulation_status(data))
+		// {
+		// 	pthread_mutex_unlock(&data->forks[(philo->id + 1) % data->num_philos]);
+		// 	return ;
+		// }
 		pthread_mutex_lock(&data->forks[philo->id]);
 	}
 }
