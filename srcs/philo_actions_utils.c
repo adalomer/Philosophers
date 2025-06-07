@@ -42,28 +42,21 @@ void	release_forks(t_philo *philo, t_data *data)
 	pthread_mutex_unlock(&data->forks[(philo->id + 1) % data->num_philos]);
 }
 
-int	print_status(t_data *data, int philo_id, char *status)
+int	check_simulation_status(t_data *data)
 {
-	long long	current_time;
+	int	status;
 
 	pthread_mutex_lock(&data->sim_mutex);
-	if (!data->sim_over)
-	{
-		pthread_mutex_unlock(&data->sim_mutex);
-		pthread_mutex_lock(&data->write_mutex);
-		current_time = get_time() - data->start_time;
-		printf("%lld %d %s\n", current_time, philo_id + 1, status);
-		pthread_mutex_unlock(&data->write_mutex);
-		return (1);
-	}
+	status = data->sim_over;
 	pthread_mutex_unlock(&data->sim_mutex);
-	return (0);
+	return (status);
 }
 
-void	update_meal_info(t_philo *philo)
+void	handle_single_philosopher(t_philo *philo, t_data *data)
 {
-	pthread_mutex_lock(&philo->meal_mutex);
-	philo->last_meal_time = get_time();
-	philo->meals_eaten++;
-	pthread_mutex_unlock(&philo->meal_mutex);
+	ft_usleep(data->time_to_die);
+	pthread_mutex_lock(&data->sim_mutex);
+	data->sim_over = 1;
+	pthread_mutex_unlock(&data->sim_mutex);
+	release_forks(philo, data);
 }

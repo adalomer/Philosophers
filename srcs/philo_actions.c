@@ -12,16 +12,6 @@
 
 #include "../includes/philo.h"
 
-int	check_simulation_status(t_data *data)
-{
-	int	status;
-
-	pthread_mutex_lock(&data->sim_mutex);
-	status = data->sim_over;
-	pthread_mutex_unlock(&data->sim_mutex);
-	return (status);
-}
-
 static int	print_status(t_data *data, int philo_id, char *status)
 {
 	pthread_mutex_lock(&data->sim_mutex);
@@ -55,15 +45,6 @@ static void	eat(t_philo *philo, t_data *data)
 		return ;
 	}
 	ft_usleep(data->time_to_eat);
-	release_forks(philo, data);
-}
-
-static void	handle_single_philosopher(t_philo *philo, t_data *data)
-{
-	ft_usleep(data->time_to_die);
-	pthread_mutex_lock(&data->sim_mutex);
-	data->sim_over = 1;
-	pthread_mutex_unlock(&data->sim_mutex);
 	release_forks(philo, data);
 }
 

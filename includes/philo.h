@@ -56,5 +56,6 @@ void		take_forks(t_philo *philo, t_data *data);
 int			check_simulation_status(t_data *data);
 void		release_forks(t_philo *philo, t_data *data);
 void		*monitor_routine(void *arg);
+void		handle_single_philosopher(t_philo *philo, t_data *data);
 
 #endif

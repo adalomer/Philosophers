@@ -16,7 +16,6 @@ CFLAGS = -Wall -Wextra -Werror
 SRCS = srcs/main.c \
        srcs/init.c \
        srcs/monitor.c \
-       srcs/monitor_utils.c \
        srcs/philo_actions.c \
        srcs/philo_actions_utils.c \
        srcs/utils.c
