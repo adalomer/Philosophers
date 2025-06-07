@@ -22,21 +22,11 @@ void	take_forks(t_philo *philo, t_data *data)
 	if (philo->id % 2 == 0)
 	{
 		pthread_mutex_lock(&data->forks[philo->id]);
-		// if (check_simulation_status(data))
-		// {
-		// 	pthread_mutex_unlock(&data->forks[philo->id]);
-		// 	return ;
-		// }
 		pthread_mutex_lock(&data->forks[(philo->id + 1) % data->num_philos]);
 	}
 	else
 	{
 		pthread_mutex_lock(&data->forks[(philo->id + 1) % data->num_philos]);
-		// if (check_simulation_status(data))
-		// {
-		// 	pthread_mutex_unlock(&data->forks[(philo->id + 1) % data->num_philos]);
-		// 	return ;
-		// }
 		pthread_mutex_lock(&data->forks[philo->id]);
 	}
 }

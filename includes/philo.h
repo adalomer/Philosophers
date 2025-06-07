@@ -46,22 +46,15 @@ typedef struct s_data
 	t_philo			*philos;
 }	t_data;
 
-/* utils.c */
 long long	get_time(void);
 void		ft_usleep(int milliseconds);
 int			ft_atoi(const char *str);
-
-/* init.c */
 int			init_data(t_data *data, char **argv);
 void		cleanup(t_data *data);
-
-/* actions.c */
 void		*philosopher_routine(void *arg);
-void	take_forks(t_philo *philo, t_data *data);
-int	check_simulation_status(t_data *data);
-void	release_forks(t_philo *philo, t_data *data);
-
-/* monitor.c */
+void		take_forks(t_philo *philo, t_data *data);
+int			check_simulation_status(t_data *data);
+void		release_forks(t_philo *philo, t_data *data);
 void		*monitor_routine(void *arg);
 
 #endif

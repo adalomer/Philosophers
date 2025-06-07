@@ -22,25 +22,6 @@ int	check_simulation_status(t_data *data)
 	return (status);
 }
 
-// static void	release_forks(t_philo *philo, t_data *data)
-// {
-// 	if (data->num_philos == 1)
-// 	{
-// 		pthread_mutex_unlock(&data->forks[0]);
-// 		return ;
-// 	}
-// 	if (philo->id % 2 == 0)
-// 	{
-// 		pthread_mutex_unlock(&data->forks[philo->id]);
-// 		pthread_mutex_unlock(&data->forks[(philo->id + 1) % data->num_philos]);
-// 	}
-// 	else
-// 	{
-// 		pthread_mutex_unlock(&data->forks[(philo->id + 1) % data->num_philos]);
-// 		pthread_mutex_unlock(&data->forks[philo->id]);
-// 	}
-// }
-
 static int	print_status(t_data *data, int philo_id, char *status)
 {
 	pthread_mutex_lock(&data->sim_mutex);
@@ -88,7 +69,8 @@ static void	handle_single_philosopher(t_philo *philo, t_data *data)
 
 static void	philosopher_cycle(t_philo *philo, t_data *data)
 {
-	int thinktime;
+	int	thinktime;
+
 	if (check_simulation_status(data))
 		return ;
 	take_forks(philo, data);
