@@ -6,7 +6,7 @@
 #    By: omadali < omadali@student.42kocaeli.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/13 00:03:44 by omadali           #+#    #+#              #
-#    Updated: 2025/06/03 22:04:55 by omadali          ###   ########.fr        #
+#    Updated: 2025/06/11 21:19:17 by omadali          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,8 @@ SRCS = srcs/main.c \
        srcs/monitor.c \
        srcs/philo_actions.c \
        srcs/philo_actions_utils.c \
-       srcs/utils.c
+       srcs/utils.c \
+       srcs/philo_actions2.c
 OBJS = $(SRCS:.c=.o)
 
 all: $(NAME)

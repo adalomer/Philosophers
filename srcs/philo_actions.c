@@ -6,13 +6,13 @@
 /*   By: omadali < omadali@student.42kocaeli.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 00:03:10 by omadali           #+#    #+#             */
-/*   Updated: 2025/06/11 20:57:08 by omadali          ###   ########.fr       */
+/*   Updated: 2025/06/11 21:19:34 by omadali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
 
-static int	print_status(t_data *data, int philo_id, char *status)
+int	print_status(t_data *data, int philo_id, char *status)
 {
 	pthread_mutex_lock(&data->sim_mutex);
 	if (data->sim_over)
@@ -48,7 +48,7 @@ static void	eat(t_philo *philo, t_data *data)
 	release_forks(philo, data);
 }
 
-static void	philosopher_cycle(t_philo *philo, t_data *data)
+void	philosopher_cycle(t_philo *philo, t_data *data)
 {
 	if (check_simulation_status(data))
 		return ;
@@ -69,15 +69,7 @@ static void	philosopher_cycle(t_philo *philo, t_data *data)
 		return ;
 	}
 	eat(philo, data);
-	if (check_simulation_status(data))
-		return ;
-	if (!print_status(data, philo->id, "is sleeping"))
-		return ;
-	ft_usleep(data->time_to_sleep);
-	if (check_simulation_status(data))
-		return ;
-	if (!print_status(data, philo->id, "is thinking"))
-		return ;
+	philo_cycle2(philo, data);
 	ft_thinktime(data);
 }
 
