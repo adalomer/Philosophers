@@ -6,7 +6,7 @@
 /*   By: omadali < omadali@student.42kocaeli.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 00:03:10 by omadali           #+#    #+#             */
-/*   Updated: 2025/06/03 22:14:31 by omadali          ###   ########.fr       */
+/*   Updated: 2025/06/11 20:57:08 by omadali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,6 @@ static void	eat(t_philo *philo, t_data *data)
 
 static void	philosopher_cycle(t_philo *philo, t_data *data)
 {
-	int	thinktime;
-
 	if (check_simulation_status(data))
 		return ;
 	take_forks(philo, data);
@@ -80,9 +78,7 @@ static void	philosopher_cycle(t_philo *philo, t_data *data)
 		return ;
 	if (!print_status(data, philo->id, "is thinking"))
 		return ;
-	thinktime = data->time_to_die - data->time_to_eat - data->time_to_sleep;
-	if (thinktime > 0)
-		ft_usleep(thinktime / 2);
+	ft_thinktime(data);
 }
 
 void	*philosopher_routine(void *arg)

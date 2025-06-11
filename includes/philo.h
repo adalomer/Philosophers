@@ -6,7 +6,7 @@
 /*   By: omadali < omadali@student.42kocaeli.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 02:58:10 by omadali           #+#    #+#             */
-/*   Updated: 2025/06/03 22:07:46 by omadali          ###   ########.fr       */
+/*   Updated: 2025/06/11 20:56:29 by omadali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,5 +57,8 @@ int			check_simulation_status(t_data *data);
 void		release_forks(t_philo *philo, t_data *data);
 void		*monitor_routine(void *arg);
 void		handle_single_philosopher(t_philo *philo, t_data *data);
+void		destroy_philo_mutexes(t_data *data);
+void		end_simulation(t_data *data);
+void		ft_thinktime(t_data *data);
 
 #endif

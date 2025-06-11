@@ -6,7 +6,7 @@
 /*   By: omadali < omadali@student.42kocaeli.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 02:59:22 by omadali           #+#    #+#             */
-/*   Updated: 2025/05/22 04:47:40 by omadali          ###   ########.fr       */
+/*   Updated: 2025/06/11 20:57:14 by omadali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,15 @@ static int	create_threads(t_data *data)
 	return (0);
 }
 
+void	ft_thinktime(t_data *data)
+{
+	int	thinktime;
+
+	thinktime = data->time_to_die - data->time_to_eat - data->time_to_sleep;
+	if (thinktime > 0)
+		ft_usleep(thinktime / 2);
+}
+
 static int	check_args(int argc, char **argv)
 {
 	int	i;
@@ -67,6 +76,16 @@ static int	check_args(int argc, char **argv)
 		i++;
 	}
 	return (0);
+}
+
+void	cleanup(t_data *data)
+{
+	destroy_philo_mutexes(data);
+	pthread_mutex_destroy(&data->write_mutex);
+	pthread_mutex_destroy(&data->sim_mutex);
+	pthread_mutex_destroy(&data->start_mutex);
+	free(data->forks);
+	free(data->philos);
 }
 
 int	main(int argc, char **argv)

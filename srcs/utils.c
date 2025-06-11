@@ -6,7 +6,7 @@
 /*   By: omadali < omadali@student.42kocaeli.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 03:00:00 by omadali           #+#    #+#             */
-/*   Updated: 2025/05/22 04:47:44 by omadali          ###   ########.fr       */
+/*   Updated: 2025/06/11 21:10:51 by omadali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	ft_usleep(int milliseconds)
 		current_time = get_time();
 		if ((current_time - start_time) >= milliseconds)
 			break ;
-		usleep(10);
+		usleep(100);
 	}
 }
 

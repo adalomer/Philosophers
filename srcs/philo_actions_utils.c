@@ -6,7 +6,7 @@
 /*   By: omadali < omadali@student.42kocaeli.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 00:03:10 by omadali           #+#    #+#             */
-/*   Updated: 2025/06/11 20:12:58 by omadali          ###   ########.fr       */
+/*   Updated: 2025/06/11 21:09:07 by omadali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,4 +61,11 @@ void	handle_single_philosopher(t_philo *philo, t_data *data)
 	data->sim_over = 1;
 	pthread_mutex_unlock(&data->sim_mutex);
 	release_forks(philo, data);
+}
+
+void	end_simulation(t_data *data)
+{
+	pthread_mutex_lock(&data->sim_mutex);
+	data->sim_over = 1;
+	pthread_mutex_unlock(&data->sim_mutex);
 }

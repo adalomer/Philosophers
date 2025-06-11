@@ -6,7 +6,7 @@
 /*   By: omadali < omadali@student.42kocaeli.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 00:03:23 by omadali           #+#    #+#             */
-/*   Updated: 2025/05/22 04:54:59 by omadali          ###   ########.fr       */
+/*   Updated: 2025/06/11 20:20:49 by omadali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,13 +70,6 @@ static int	check_meals_required(t_data *data)
 		i++;
 	}
 	return (1);
-}
-
-static void	end_simulation(t_data *data)
-{
-	pthread_mutex_lock(&data->sim_mutex);
-	data->sim_over = 1;
-	pthread_mutex_unlock(&data->sim_mutex);
 }
 
 void	*monitor_routine(void *arg)

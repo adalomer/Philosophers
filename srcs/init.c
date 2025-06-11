@@ -6,7 +6,7 @@
 /*   By: omadali < omadali@student.42kocaeli.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 00:02:55 by omadali           #+#    #+#             */
-/*   Updated: 2025/05/22 04:47:46 by omadali          ###   ########.fr       */
+/*   Updated: 2025/06/11 20:16:34 by omadali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ int	init_data(t_data *data, char **argv)
 	return (0);
 }
 
-static void	destroy_philo_mutexes(t_data *data)
+void	destroy_philo_mutexes(t_data *data)
 {
 	int	i;
 
@@ -95,14 +95,4 @@ static void	destroy_philo_mutexes(t_data *data)
 		pthread_mutex_destroy(&data->philos[i].meal_mutex);
 		i++;
 	}
-}
-
-void	cleanup(t_data *data)
-{
-	destroy_philo_mutexes(data);
-	pthread_mutex_destroy(&data->write_mutex);
-	pthread_mutex_destroy(&data->sim_mutex);
-	pthread_mutex_destroy(&data->start_mutex);
-	free(data->forks);
-	free(data->philos);
 }
