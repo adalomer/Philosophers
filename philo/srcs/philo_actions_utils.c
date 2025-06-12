@@ -6,11 +6,13 @@
 /*   By: omadali < omadali@student.42kocaeli.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 00:03:10 by omadali           #+#    #+#             */
-/*   Updated: 2025/06/12 18:13:33 by omadali          ###   ########.fr       */
+/*   Updated: 2025/06/12 18:36:57 by omadali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
+#include <pthread.h>
+#include <stdio.h>
 
 void	take_forks(t_philo *philo, t_data *data)
 {

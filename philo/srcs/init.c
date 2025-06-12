@@ -6,11 +6,14 @@
 /*   By: omadali < omadali@student.42kocaeli.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 00:02:55 by omadali           #+#    #+#             */
-/*   Updated: 2025/06/12 16:14:44 by omadali          ###   ########.fr       */
+/*   Updated: 2025/06/12 18:35:07 by omadali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
+#include <pthread.h>
+#include <stdlib.h>
+#include <stdio.h>
 
 static int	init_mutexes(t_data *data)
 {

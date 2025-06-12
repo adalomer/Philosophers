@@ -6,11 +6,12 @@
 /*   By: omadali < omadali@student.42kocaeli.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 03:00:00 by omadali           #+#    #+#             */
-/*   Updated: 2025/06/12 16:15:06 by omadali          ###   ########.fr       */
+/*   Updated: 2025/06/12 18:29:36 by omadali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/philo.h"
+#include <sys/time.h>
+#include <unistd.h>
 
 long long	get_time(void)
 {

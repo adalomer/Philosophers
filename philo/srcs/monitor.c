@@ -6,11 +6,13 @@
 /*   By: omadali < omadali@student.42kocaeli.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 00:03:23 by omadali           #+#    #+#             */
-/*   Updated: 2025/06/12 16:14:51 by omadali          ###   ########.fr       */
+/*   Updated: 2025/06/12 18:35:57 by omadali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
+#include <pthread.h>
+#include <stdio.h>
 
 static void	print_death_message(t_data *data, int philo_id)
 {

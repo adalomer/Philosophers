@@ -6,18 +6,13 @@
 /*   By: omadali < omadali@student.42kocaeli.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 02:58:10 by omadali           #+#    #+#             */
-/*   Updated: 2025/06/12 18:23:07 by omadali          ###   ########.fr       */
+/*   Updated: 2025/06/12 18:36:28 by omadali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILO_H
 # define PHILO_H
-
-# include <stdio.h>
-# include <stdlib.h>
-# include <unistd.h>
 # include <pthread.h>
-# include <sys/time.h>
 
 typedef struct s_philo
 {

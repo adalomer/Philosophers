@@ -6,11 +6,14 @@
 /*   By: omadali < omadali@student.42kocaeli.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 02:59:22 by omadali           #+#    #+#             */
-/*   Updated: 2025/06/12 18:13:13 by omadali          ###   ########.fr       */
+/*   Updated: 2025/06/12 18:31:45 by omadali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
+#include <pthread.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 static int	create_threads(t_data *data)
 {
