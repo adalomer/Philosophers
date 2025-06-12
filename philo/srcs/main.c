@@ -6,7 +6,7 @@
 /*   By: omadali < omadali@student.42kocaeli.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 02:59:22 by omadali           #+#    #+#             */
-/*   Updated: 2025/06/12 16:16:36 by omadali          ###   ########.fr       */
+/*   Updated: 2025/06/12 18:13:13 by omadali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,8 @@ void	ft_thinktime(t_data *data)
 {
 	int	thinktime;
 
-	thinktime = (data->time_to_die - data->time_to_eat - data->time_to_sleep) / 2;
+	thinktime = (data->time_to_die - data->time_to_eat
+			- data->time_to_sleep) / 2;
 	if (thinktime > 0)
 		ft_usleep(thinktime);
 }

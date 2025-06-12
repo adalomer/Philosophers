@@ -6,7 +6,7 @@
 /*   By: omadali < omadali@student.42kocaeli.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/11 21:14:52 by omadali           #+#    #+#             */
-/*   Updated: 2025/06/11 21:20:21 by omadali          ###   ########.fr       */
+/*   Updated: 2025/06/12 18:22:07 by omadali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,4 +23,17 @@ void	philo_cycle2(t_philo *philo, t_data *data)
 		return ;
 	if (!print_status(data, philo->id, "is thinking"))
 		return ;
+}
+
+void	ft_whileloop(t_data *data, t_philo *philo)
+{
+	while (1)
+	{
+		if (check_simulation_status(data))
+			break ;
+		if (philosopher_cycle(philo, data))
+			break ;
+		if (check_simulation_status(data))
+			break ;
+	}
 }

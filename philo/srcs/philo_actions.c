@@ -6,7 +6,7 @@
 /*   By: omadali < omadali@student.42kocaeli.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 00:03:10 by omadali           #+#    #+#             */
-/*   Updated: 2025/06/12 16:32:39 by omadali          ###   ########.fr       */
+/*   Updated: 2025/06/12 18:21:36 by omadali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	print_status(t_data *data, int philo_id, char *status)
 	{
 		pthread_mutex_unlock(&data->sim_mutex);
 		printf("%lld %d %s\n", get_time() - data->start_time,
-		philo_id + 1, status);
+			philo_id + 1, status);
 		pthread_mutex_unlock(&data->write_mutex);
 		return (1);
 	}
@@ -88,7 +88,7 @@ void	*philosopher_routine(void *arg)
 		if (data->start)
 		{
 			pthread_mutex_unlock(&data->start_mutex);
-			break;
+			break ;
 		}
 		pthread_mutex_unlock(&data->start_mutex);
 	}
@@ -96,16 +96,7 @@ void	*philosopher_routine(void *arg)
 	philo->last_meal_time = get_time();
 	pthread_mutex_unlock(&philo->meal_mutex);
 	if (philo->id % 2 == 0)
-	 	ft_usleep(1);
-	while (1)
-	{
-		if (check_simulation_status(data))
-			break ;
-		if (philosopher_cycle(philo, data))
-			break;
-		if (check_simulation_status(data))
-			break ;
-	}
+		ft_usleep (1);
+	ft_whileloop(data, philo);
 	return (NULL);
 }
-

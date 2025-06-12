@@ -6,7 +6,7 @@
 /*   By: omadali < omadali@student.42kocaeli.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 02:58:10 by omadali           #+#    #+#             */
-/*   Updated: 2025/06/11 21:19:45 by omadali          ###   ########.fr       */
+/*   Updated: 2025/06/12 18:23:07 by omadali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,5 +62,7 @@ void		end_simulation(t_data *data);
 void		ft_thinktime(t_data *data);
 void		philo_cycle2(t_philo *philo, t_data *data);
 int			print_status(t_data *data, int philo_id, char *status);
+void		ft_whileloop(t_data *data, t_philo *philo);
+int			philosopher_cycle(t_philo *philo, t_data *data);
 
 #endif
