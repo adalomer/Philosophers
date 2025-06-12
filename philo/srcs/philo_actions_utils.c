@@ -6,7 +6,7 @@
 /*   By: omadali < omadali@student.42kocaeli.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 00:03:10 by omadali           #+#    #+#             */
-/*   Updated: 2025/06/11 21:09:07 by omadali          ###   ########.fr       */
+/*   Updated: 2025/06/12 16:14:55 by omadali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,6 @@ void	take_forks(t_philo *philo, t_data *data)
 		pthread_mutex_lock(&data->forks[0]);
 		return ;
 	}
-	if (philo->id % 2 == 0)
-		usleep(1);
 	if (philo->id % 2 == 0)
 	{
 		pthread_mutex_lock(&data->forks[philo->id]);

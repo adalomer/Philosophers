@@ -6,7 +6,7 @@
 /*   By: omadali < omadali@student.42kocaeli.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 00:03:23 by omadali           #+#    #+#             */
-/*   Updated: 2025/06/11 20:20:49 by omadali          ###   ########.fr       */
+/*   Updated: 2025/06/12 16:14:51 by omadali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,9 @@ void	*monitor_routine(void *arg)
 	pthread_mutex_lock(&data->start_mutex);
 	data->start = 1;
 	pthread_mutex_unlock(&data->start_mutex);
+	pthread_mutex_lock(&data->sim_mutex);
+	data->start_time = get_time();
+	pthread_mutex_unlock(&data->sim_mutex);
 	while (1)
 	{
 		if (check_all_philos(data))
@@ -89,7 +92,6 @@ void	*monitor_routine(void *arg)
 			end_simulation(data);
 			return (NULL);
 		}
-		usleep(1000);
 	}
 	return (NULL);
 }

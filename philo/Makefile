@@ -6,13 +6,13 @@
 #    By: omadali < omadali@student.42kocaeli.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/13 00:03:44 by omadali           #+#    #+#              #
-#    Updated: 2025/06/11 22:46:30 by omadali          ###   ########.fr        #
+#    Updated: 2025/06/12 17:04:48 by omadali          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = philo
 CC = cc
-CFLAGS = -Wall -Wextra -Werror 
+CFLAGS = -Wall -Wextra -Werror
 SRCS = srcs/main.c \
        srcs/init.c \
        srcs/monitor.c \

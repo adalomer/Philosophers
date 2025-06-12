@@ -6,26 +6,27 @@
 /*   By: omadali < omadali@student.42kocaeli.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 00:03:10 by omadali           #+#    #+#             */
-/*   Updated: 2025/06/11 21:19:34 by omadali          ###   ########.fr       */
+/*   Updated: 2025/06/12 16:32:39 by omadali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
 
 int	print_status(t_data *data, int philo_id, char *status)
-{
+{	
+	pthread_mutex_lock(&data->write_mutex);
 	pthread_mutex_lock(&data->sim_mutex);
-	if (data->sim_over)
+	if (!data->sim_over)
 	{
 		pthread_mutex_unlock(&data->sim_mutex);
-		return (0);
+		printf("%lld %d %s\n", get_time() - data->start_time,
+		philo_id + 1, status);
+		pthread_mutex_unlock(&data->write_mutex);
+		return (1);
 	}
 	pthread_mutex_unlock(&data->sim_mutex);
-	pthread_mutex_lock(&data->write_mutex);
-	printf("%lld %d %s\n", get_time() - data->start_time,
-		philo_id + 1, status);
 	pthread_mutex_unlock(&data->write_mutex);
-	return (1);
+	return (0);
 }
 
 static void	update_meal_info(t_philo *philo)
@@ -48,29 +49,30 @@ static void	eat(t_philo *philo, t_data *data)
 	release_forks(philo, data);
 }
 
-void	philosopher_cycle(t_philo *philo, t_data *data)
+int	philosopher_cycle(t_philo *philo, t_data *data)
 {
 	if (check_simulation_status(data))
-		return ;
+		return (1);
 	take_forks(philo, data);
 	if (check_simulation_status(data))
 	{
 		release_forks(philo, data);
-		return ;
+		return (1);
 	}
 	if (!print_status(data, philo->id, "has taken a fork"))
 	{
 		release_forks(philo, data);
-		return ;
+		return (1);
 	}
 	if (data->num_philos == 1)
 	{
 		handle_single_philosopher(philo, data);
-		return ;
+		return (1);
 	}
 	eat(philo, data);
 	philo_cycle2(philo, data);
 	ft_thinktime(data);
+	return (0);
 }
 
 void	*philosopher_routine(void *arg)
@@ -82,16 +84,28 @@ void	*philosopher_routine(void *arg)
 	data = philo->data;
 	while (1)
 	{
-		if (&data->start)
-			break ;
+		pthread_mutex_lock(&data->start_mutex);
+		if (data->start)
+		{
+			pthread_mutex_unlock(&data->start_mutex);
+			break;
+		}
+		pthread_mutex_unlock(&data->start_mutex);
 	}
+	pthread_mutex_lock(&philo->meal_mutex);
+	philo->last_meal_time = get_time();
+	pthread_mutex_unlock(&philo->meal_mutex);
+	if (philo->id % 2 == 0)
+	 	ft_usleep(1);
 	while (1)
 	{
 		if (check_simulation_status(data))
 			break ;
-		philosopher_cycle(philo, data);
+		if (philosopher_cycle(philo, data))
+			break;
 		if (check_simulation_status(data))
 			break ;
 	}
 	return (NULL);
 }
+

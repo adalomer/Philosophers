@@ -6,7 +6,7 @@
 /*   By: omadali < omadali@student.42kocaeli.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 00:02:55 by omadali           #+#    #+#             */
-/*   Updated: 2025/06/11 20:16:34 by omadali          ###   ########.fr       */
+/*   Updated: 2025/06/12 16:14:44 by omadali          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static int	init_philosophers(t_data *data)
 	{
 		data->philos[i].id = i;
 		data->philos[i].meals_eaten = 0;
-		data->philos[i].last_meal_time = data->start_time;
+		data->philos[i].last_meal_time = get_time();
 		data->philos[i].data = data;
 		i++;
 	}
@@ -75,6 +75,7 @@ int	init_data(t_data *data, char **argv)
 		data->meals_required = -1;
 	data->sim_over = 0;
 	data->start_time = get_time();
+	data->start = 0;
 	if (allocate_memory(data))
 		return (1);
 	if (init_mutexes(data))
