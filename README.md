@@ -2,7 +2,7 @@
 
 <div align="center">
 
-![42 Score](https://img.shields.io/badge/Score-125%2F100-success?style=for-the-badge&logo=42)
+![42 Score](https://img.shields.io/badge/Score-100%2F100-success?style=for-the-badge&logo=42)
 ![Norminette](https://img.shields.io/badge/Norminette-passing-success?style=for-the-badge)
 ![Language](https://img.shields.io/badge/Language-C-blue?style=for-the-badge&logo=c)
 
